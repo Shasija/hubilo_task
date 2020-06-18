@@ -28,13 +28,22 @@ export default (state = INITIAL_STATE, action) => {
     case actions.DELETE_MULTIPLE_DATA:
       let deleteUserData = Array.from(state.userData);
       console.log("action.payload.data", action.payload.data);
-      action.payload.data.forEach((element) => {
-        deleteUserData.splice(element, 1);
+
+      let newUserData = [];
+
+      deleteUserData.forEach((element, index) => {
+        if (action.payload.data.indexOf(index) === -1) {
+          newUserData.push(element);
+        }
       });
-      console.log("deleteUserData", deleteUserData);
+
+      // action.payload.data.forEach((element) => {
+      //   deleteUserData.splice(element, 1);
+      // });
+      console.log("deleteUserData", newUserData);
       return {
         ...state,
-        userData: deleteUserData,
+        userData: newUserData,
       };
 
     default:

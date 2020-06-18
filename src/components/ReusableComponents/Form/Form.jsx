@@ -19,8 +19,41 @@ class Form extends React.Component {
         hobbies: { sports: false, programming: false },
         skills: { leadership: false, timeManagement: false },
       },
+      errorMessages: {
+        name: "",
+        email: "",
+        portfolioLink: "",
+        gender: "",
+      },
     };
   }
+
+  validateForm = () => {
+    let isValid = true;
+    console.log(this.state.fields);
+
+    let fieldArr = Object.keys(this.state.errorMessages);
+    let errorMessages = Object.assign({}, this.state.errorMessages);
+    let emailPattern = /[a-zA-Z0-9._%-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}/;
+
+    fieldArr.forEach((fieldName) => {
+      if (!this.state.fields[fieldName]) {
+        errorMessages[fieldName] = "Please enter a value.";
+        isValid = false;
+      }
+    });
+    if (
+      this.state.fields["email"] &&
+      !emailPattern.test(this.state.fields["email"])
+    ) {
+      errorMessages["email"] = "Please enter a valid value.";
+      isValid = false;
+    }
+    this.setState({
+      errorMessages,
+    });
+    return isValid;
+  };
 
   handleHobbies = (value) => {
     let fields = { ...this.state.fields };
@@ -56,10 +89,16 @@ class Form extends React.Component {
               onChange={(e) => {
                 let fields = { ...this.state.fields };
                 fields["name"] = e.target.value;
-                this.setState({ fields });
+
+                let errorMessages = { ...this.state.errorMessages };
+                errorMessages["name"] = "";
+                this.setState({ fields, errorMessages });
               }}
               value={this.state.fields.name}
             />
+            {this.state.errorMessages["name"] && (
+              <p className="errorMessage">{this.state.errorMessages["name"]}</p>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
@@ -71,10 +110,17 @@ class Form extends React.Component {
               onChange={(e) => {
                 let fields = { ...this.state.fields };
                 fields["email"] = e.target.value;
-                this.setState({ fields });
+                let errorMessages = { ...this.state.errorMessages };
+                errorMessages["email"] = "";
+                this.setState({ fields, errorMessages });
               }}
               value={this.state.fields.email}
             />
+            {this.state.errorMessages["email"] && (
+              <p className="errorMessage">
+                {this.state.errorMessages["email"]}
+              </p>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="portfolioLink">Portfolio Link</label>
@@ -86,10 +132,17 @@ class Form extends React.Component {
               onChange={(e) => {
                 let fields = { ...this.state.fields };
                 fields["portfolioLink"] = e.target.value;
-                this.setState({ fields });
+                let errorMessages = { ...this.state.errorMessages };
+                errorMessages["portfolioLink"] = "";
+                this.setState({ fields, errorMessages });
               }}
               value={this.state.fields.portfolioLink}
             />
+            {this.state.errorMessages["portfolioLink"] && (
+              <p className="errorMessage">
+                {this.state.errorMessages["portfolioLink"]}
+              </p>
+            )}
           </div>
 
           <div className="form-group">
@@ -105,7 +158,9 @@ class Form extends React.Component {
                   onChange={() => {
                     let fields = { ...this.state.fields };
                     fields["gender"] = "male";
-                    this.setState({ fields });
+                    let errorMessages = { ...this.state.errorMessages };
+                    errorMessages["gender"] = "";
+                    this.setState({ fields, errorMessages });
                   }}
                   checked={this.state.fields.gender === "male" ? true : false}
                 />
@@ -123,7 +178,9 @@ class Form extends React.Component {
                   onChange={() => {
                     let fields = { ...this.state.fields };
                     fields["gender"] = "female";
-                    this.setState({ fields });
+                    let errorMessages = { ...this.state.errorMessages };
+                    errorMessages["gender"] = "";
+                    this.setState({ fields, errorMessages });
                   }}
                   checked={this.state.fields.gender === "female" ? true : false}
                 />
@@ -141,13 +198,20 @@ class Form extends React.Component {
                   onChange={() => {
                     let fields = { ...this.state.fields };
                     fields["gender"] = "others";
-                    this.setState({ fields });
+                    let errorMessages = { ...this.state.errorMessages };
+                    errorMessages["gender"] = "";
+                    this.setState({ fields, errorMessages });
                   }}
                   checked={this.state.fields.gender === "others" ? true : false}
                 />
                 Others
               </label>
             </div>
+            {this.state.errorMessages["gender"] && (
+              <p className="errorMessage">
+                {this.state.errorMessages["gender"]}
+              </p>
+            )}
           </div>
 
           <div className="row form-group">
@@ -220,16 +284,18 @@ class Form extends React.Component {
                   e.preventDefault();
                   console.log(this.state);
 
-                  if (this.props.updateFlag) {
-                    this.props.updateFormData({
-                      data: this.state.fields,
-                      index: this.props.index,
-                    });
-                    this.props.handleClose();
-                  } else {
-                    this.props.addFormData(this.state.fields);
+                  if (this.validateForm()) {
+                    if (this.props.updateFlag) {
+                      this.props.updateFormData({
+                        data: this.state.fields,
+                        index: this.props.index,
+                      });
+                      this.props.handleClose();
+                    } else {
+                      this.props.addFormData(this.state.fields);
+                    }
+                    this.props.history.push("/table");
                   }
-                  this.props.history.push("/table");
                 }}
               >
                 {this.props.updateFlag ? "Update" : "Submit"}
