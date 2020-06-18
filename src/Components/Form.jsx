@@ -1,5 +1,9 @@
 import React from "react";
-
+import Layout from "../Container/Layout.jsx";
+import Text from "../ReusableComponents/InputControls/Text.jsx";
+import Radio from "../ReusableComponents/InputControls/Radio.jsx";
+import CheckBox from "../ReusableComponents/InputControls/CheckBox.jsx";
+import Button from "../ReusableComponents/InputControls/Button.jsx";
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +20,7 @@ class Form extends React.Component {
               <div>
                 <div className="form-group">
                   <label htmlFor="name">Enter Name</label>
-                  <input
+                  <Text
                     type="text"
                     className="form-control"
                     id="name"
@@ -25,7 +29,7 @@ class Form extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="email">Email address</label>
-                  <input
+                  <Text
                     type="email"
                     className="form-control"
                     id="email"
@@ -34,7 +38,7 @@ class Form extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="portfolioLink">Portfolio Link</label>
-                  <input
+                  <Text
                     type="text"
                     className="form-control"
                     id="portfolioLink"
@@ -46,7 +50,7 @@ class Form extends React.Component {
                   <h5>Gender</h5>
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input
+                      <Radio
                         type="radio"
                         className="form-check-input"
                         name="optionsRadios"
@@ -59,7 +63,7 @@ class Form extends React.Component {
                   </div>
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input
+                      <Radio
                         type="radio"
                         className="form-check-input"
                         name="optionsRadios"
@@ -71,7 +75,7 @@ class Form extends React.Component {
                   </div>
                   <div className="form-check ">
                     <label className="form-check-label">
-                      <input
+                      <Radio
                         type="radio"
                         className="form-check-input"
                         name="optionsRadios"
@@ -88,13 +92,19 @@ class Form extends React.Component {
                     <h6 className="">Hobbies</h6>
                     <div className="form-check">
                       <label className="form-check-label">
-                        <input className="form-check-input" type="checkbox" />
+                        <CheckBox
+                          className="form-check-input"
+                          type="checkbox"
+                        />
                         Sports
                       </label>
                     </div>
                     <div className="form-check disabled">
                       <label className="form-check-label">
-                        <input className="form-check-input" type="checkbox" />
+                        <CheckBox
+                          className="form-check-input"
+                          type="checkbox"
+                        />
                         Computer Programming
                       </label>
                     </div>
@@ -103,13 +113,19 @@ class Form extends React.Component {
                     <h6>Skills</h6>
                     <div className="form-check">
                       <label className="form-check-label">
-                        <input className="form-check-input" type="checkbox" />
+                        <CheckBox
+                          className="form-check-input"
+                          type="checkbox"
+                        />
                         Leadership
                       </label>
                     </div>
                     <div className="form-check disabled">
                       <label className="form-check-label">
-                        <input className="form-check-input" type="checkbox" />
+                        <CheckBox
+                          className="form-check-input"
+                          type="checkbox"
+                        />
                         Time management
                       </label>
                     </div>
@@ -118,9 +134,9 @@ class Form extends React.Component {
                 <div className="row">
                   <div className="col-md-4"></div>
                   <div className="col-md-4">
-                    <button type="submit" className="btn btn-primary ">
+                    <Button type="submit" className="btn btn-primary ">
                       Submit
-                    </button>
+                    </Button>
                   </div>
                   <div className="col-md-4"></div>
                 </div>
@@ -134,4 +150,4 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+export default Layout(Form);
