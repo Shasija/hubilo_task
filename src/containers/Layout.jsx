@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../ReusableComponents/Header/Header.jsx";
+import Header from "../components/ReusableComponents/Header/Header.jsx";
 const Layout = (WrappedComponent) => {
   return () => {
     return (
